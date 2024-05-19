@@ -89,17 +89,17 @@ public class TopicLoader {
             // Users must be created first so the KTable records have earlier timestamps than the KStream records,
             // otherwise the join will ignore them.
             users.forEach(user -> {
-                ProducerRecord<String, SpecificRecord> producerRecord = new ProducerRecord<>(tableTopic, user.getUserId(), user);
+                ProducerRecord<String, SpecificRecord> producerRecord = new ProducerRecord<>(tableTopic, user.getUserId().toString(), user);
                 producer.send(producerRecord, callback);
             });
 
             applianceOrders.forEach((ao -> {
-                ProducerRecord<String, SpecificRecord> producerRecord = new ProducerRecord<>(leftSideTopic, ao.getUserId(), ao);
+                ProducerRecord<String, SpecificRecord> producerRecord = new ProducerRecord<>(leftSideTopic, ao.getUserId().toString(), ao);
                 producer.send(producerRecord, callback);
             }));
 
             electronicOrders.forEach((eo -> {
-                ProducerRecord<String, SpecificRecord> producerRecord = new ProducerRecord<>(rightSideTopic, eo.getUserId(), eo);
+                ProducerRecord<String, SpecificRecord> producerRecord = new ProducerRecord<>(rightSideTopic, eo.getUserId().toString(), eo);
                 producer.send(producerRecord, callback);
             }));
         }

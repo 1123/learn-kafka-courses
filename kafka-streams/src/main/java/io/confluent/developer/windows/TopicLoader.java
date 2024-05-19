@@ -104,7 +104,7 @@ public class TopicLoader {
                 ProducerRecord<String, ElectronicOrder> producerRecord = new ProducerRecord<>(inputTopic,
                         0,
                         electronicOrder.getTime(),
-                        electronicOrder.getElectronicId(),
+                        electronicOrder.getElectronicId().toString(),
                         electronicOrder);
                 producer.send(producerRecord, callback);
             }));

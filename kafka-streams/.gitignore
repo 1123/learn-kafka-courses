@@ -1,7 +1,7 @@
 # Default ignored files
 .idea/
-build/
 
 streams.properties
 ccloud.properties
 *.log
+target

@@ -87,7 +87,7 @@ public class TopicLoader {
 
             electronicOrders.forEach((electronicOrder -> {
                 ProducerRecord<String, ElectronicOrder> producerRecord = new ProducerRecord<>(inputTopic,
-                        electronicOrder.getElectronicId(),
+                        electronicOrder.getElectronicId().toString(),
                         electronicOrder);
                 producer.send(producerRecord, callback);
             }));
