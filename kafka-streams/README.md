@@ -1,5 +1,18 @@
 # Kafka Streams Course
 
+TODO: Gradle Avro Plugin used in the example is End Of Life
+
+TODO: update README to mTLS
+
+Quick call on 21st
+
+Udpate libraries to use latest Version. 
+
+Remove the not relevant parts:
+
+* not use Protobuf. 
+* Remove JSON relates stuff
+
 This is the code repo containing the full solutions to the exercises
 for the Kafka Streams course.  To get started you'll need to sign up
 for a Confluent Cloud account.  Follow the steps below to get everything ready to go.
