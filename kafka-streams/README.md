@@ -1,15 +1,7 @@
 # Kafka Streams Course
 
-TODO: Gradle Avro Plugin used in the example is End Of Life
-
-TODO: update README to mTLS
-
-Quick call on 21st
-
-Udpate libraries to use latest Version. 
-
-Remove the not relevant parts:
-
+TODOs: 
+* update README to mTLS
 * not use Protobuf. 
 * Remove JSON relates stuff
 
