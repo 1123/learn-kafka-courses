@@ -18,7 +18,7 @@ schema.registry.ssl.key.password=<password>
 basic.auth.credentials.source=USER_INFO
 basic.auth.user.info=<sr_username>:<password>
 
-## Topic Naming. Topics will be prefixed with the participant name. 
+## Topic Naming. Topics will be prefixed with the participant name.
 
 aggregate.input.topic=aggregate-input-topic
 aggregate.output.topic=aggregate-output-topic
