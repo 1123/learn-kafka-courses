@@ -47,6 +47,13 @@ public class StreamsUtils {
         };
     }
 
+    public static String prefixedTopicName(String topic) {
+        if (System.getenv("PARTICIPANT_NAME") == null) {
+            throw new RuntimeException("Please specify your participant name in the PARTICIPANT_NAME environment variable!");
+        }
+        return String.format("sandbox.%s.%s", System.getenv("PARTICIPANT_NAME"), topic);
+    }
+
     public static NewTopic createTopic(final String topicName){
               return new NewTopic(topicName, PARTITIONS, REPLICATION_FACTOR);
     }

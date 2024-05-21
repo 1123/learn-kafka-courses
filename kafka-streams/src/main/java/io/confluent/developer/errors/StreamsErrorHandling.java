@@ -23,6 +23,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.CountDownLatch;
 
+import static io.confluent.developer.StreamsUtils.prefixedTopicName;
+
 public class StreamsErrorHandling {
     //This is for learning purposes only!
     static boolean throwErrorNow = true;
@@ -95,8 +97,8 @@ public class StreamsErrorHandling {
         streamsProps.put("???", null);
 
         StreamsBuilder builder = new StreamsBuilder();
-        final String inputTopic = streamsProps.getProperty("error.input.topic");
-        final String outputTopic = streamsProps.getProperty("error.output.topic");
+        final String inputTopic = prefixedTopicName(streamsProps.getProperty("error.input.topic"));
+        final String outputTopic = prefixedTopicName(streamsProps.getProperty("error.output.topic"));
 
         final String orderNumberStart = "orderNumber-";
         KStream<String, String> streamWithErrorHandling =

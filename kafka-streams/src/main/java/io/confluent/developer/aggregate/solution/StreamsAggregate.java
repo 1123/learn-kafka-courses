@@ -19,6 +19,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.CountDownLatch;
 
+import static io.confluent.developer.StreamsUtils.prefixedTopicName;
+
 public class StreamsAggregate {
 
     public static void main(String[] args) throws IOException {
@@ -27,8 +29,8 @@ public class StreamsAggregate {
         streamsProps.put(StreamsConfig.APPLICATION_ID_CONFIG, "aggregate-streams");
 
         StreamsBuilder builder = new StreamsBuilder();
-        final String inputTopic = streamsProps.getProperty("aggregate.input.topic");
-        final String outputTopic = streamsProps.getProperty("aggregate.output.topic");
+        final String inputTopic = prefixedTopicName(streamsProps.getProperty("aggregate.input.topic"));
+        final String outputTopic = prefixedTopicName(streamsProps.getProperty("aggregate.output.topic"));
         final Map<String, Object> configMap = StreamsUtils.propertiesToMap(streamsProps);
 
         final SpecificAvroSerde<ElectronicOrder> electronicSerde =

@@ -28,6 +28,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.CountDownLatch;
 
+import static io.confluent.developer.StreamsUtils.prefixedTopicName;
+
 public class StreamsJoin {
 
     static <T extends SpecificRecord> SpecificAvroSerde<T> getSpecificAvroSerde(final Map<String, Object> serdeConfig) {
@@ -41,10 +43,10 @@ public class StreamsJoin {
         streamsProps.put(StreamsConfig.APPLICATION_ID_CONFIG, "joining-streams");
 
         StreamsBuilder builder = new StreamsBuilder();
-        String streamOneInput = streamsProps.getProperty("stream_one.input.topic");
-        String streamTwoInput = streamsProps.getProperty("stream_two.input.topic");
-        String tableInput = streamsProps.getProperty("table.input.topic");
-        String outputTopic = streamsProps.getProperty("joins.output.topic");
+        String streamOneInput = prefixedTopicName(streamsProps.getProperty("stream_one.input.topic"));
+        String streamTwoInput = prefixedTopicName(streamsProps.getProperty("stream_two.input.topic"));
+        String tableInput = prefixedTopicName(streamsProps.getProperty("table.input.topic"));
+        String outputTopic = prefixedTopicName(streamsProps.getProperty("joins.output.topic"));
 
         Map<String, Object> configMap = StreamsUtils.propertiesToMap(streamsProps);
 

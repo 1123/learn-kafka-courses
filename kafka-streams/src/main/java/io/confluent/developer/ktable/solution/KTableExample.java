@@ -17,6 +17,8 @@ import java.time.Duration;
 import java.util.Properties;
 import java.util.concurrent.CountDownLatch;
 
+import static io.confluent.developer.StreamsUtils.prefixedTopicName;
+
 public class KTableExample {
 
     public static void main(String[] args) throws IOException {
@@ -27,8 +29,8 @@ public class KTableExample {
         streamsProps.put(StreamsConfig.APPLICATION_ID_CONFIG, "ktable-application");
 
         StreamsBuilder builder = new StreamsBuilder();
-        final String inputTopic = streamsProps.getProperty("ktable.input.topic");
-        final String outputTopic = streamsProps.getProperty("ktable.output.topic");
+        final String inputTopic = prefixedTopicName(streamsProps.getProperty("ktable.input.topic"));
+        final String outputTopic = prefixedTopicName(streamsProps.getProperty("ktable.output.topic"));
 
         final String orderNumberStart = "orderNumber-";
         KTable<String, String> firstKTable = builder.table(inputTopic,

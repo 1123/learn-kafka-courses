@@ -21,6 +21,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.CountDownLatch;
 
+import static io.confluent.developer.StreamsUtils.prefixedTopicName;
+
 public class StreamsSerdesSchemaRegistry {
 
     public static void main(String[] args) throws IOException {
@@ -29,8 +31,8 @@ public class StreamsSerdesSchemaRegistry {
         streamsProps.put(StreamsConfig.APPLICATION_ID_CONFIG, "schema-registry-streams");
 
         StreamsBuilder builder = new StreamsBuilder();
-        final String inputTopic = streamsProps.getProperty("sr.input.topic");
-        final String outputTopic = streamsProps.getProperty("sr.output.topic");
+        final String inputTopic = prefixedTopicName(streamsProps.getProperty("sr.input.topic"));;
+        final String outputTopic = prefixedTopicName(streamsProps.getProperty("sr.output.topic"));;
         final Map<String, String> configMap = propertiesToMap(streamsProps);
 
         // Create the Avro Serde HINT there's a method in this class

@@ -82,8 +82,8 @@ public class ProcessorApi {
         final Properties streamsProps = loadProperties();
         streamsProps.put(StreamsConfig.APPLICATION_ID_CONFIG, "processor-api-application");
 
-        final String inputTopic = streamsProps.getProperty("processor.input.topic");
-        final String outputTopic = streamsProps.getProperty("processor.output.topic");
+        final String inputTopic = prefixedTopicName(streamsProps.getProperty("processor.input.topic"));
+        final String outputTopic = prefixedTopicName(streamsProps.getProperty("processor.output.topic"));
         final Map<String, Object> configMap = propertiesToMap(streamsProps);
 
         final SpecificAvroSerde<ElectronicOrder> electronicSerde = getSpecificAvroSerde(configMap);

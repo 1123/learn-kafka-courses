@@ -16,6 +16,8 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Properties;
 
+import static io.confluent.developer.StreamsUtils.prefixedTopicName;
+
 public class TopicLoader {
 
     public static void main(String[] args) throws IOException {
@@ -29,8 +31,8 @@ public class TopicLoader {
 
         try(Admin adminClient = Admin.create(properties);
             Producer<String, ElectronicOrder> producer = new KafkaProducer<>(properties)) {
-            final String inputTopic = properties.getProperty("aggregate.input.topic");
-            final String outputTopic = properties.getProperty("aggregate.output.topic");
+            final String inputTopic = prefixedTopicName(properties.getProperty("aggregate.input.topic"));
+            final String outputTopic = prefixedTopicName(properties.getProperty("aggregate.output.topic"));
             var topics = List.of(StreamsUtils.createTopic(inputTopic), StreamsUtils.createTopic(outputTopic));
             adminClient.createTopics(topics);
 

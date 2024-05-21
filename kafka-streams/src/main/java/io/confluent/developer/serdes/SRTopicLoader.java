@@ -23,6 +23,8 @@ import java.util.Properties;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import static io.confluent.developer.StreamsUtils.prefixedTopicName;
+
 public class SRTopicLoader {
     static final Random random = new Random();
     public static void main(String[] args) throws IOException {
@@ -37,8 +39,8 @@ public class SRTopicLoader {
 
         try(Admin adminClient = Admin.create(properties);
             Producer<String, ProductOrder> producer = new KafkaProducer<>(properties)) {
-            final String inputTopic = properties.getProperty("sr.input.topic");
-            final String outputTopic = properties.getProperty("sr.output.topic");
+            final String inputTopic = prefixedTopicName(properties.getProperty("sr.input.topic"));
+            final String outputTopic = prefixedTopicName(properties.getProperty("sr.output.topic"));
             var topics = List.of(StreamsUtils.createTopic(inputTopic), StreamsUtils.createTopic(outputTopic));
             adminClient.createTopics(topics);
 

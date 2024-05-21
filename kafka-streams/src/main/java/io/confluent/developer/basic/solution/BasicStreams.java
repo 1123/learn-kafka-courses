@@ -15,6 +15,8 @@ import java.time.Duration;
 import java.util.Properties;
 import java.util.concurrent.CountDownLatch;
 
+import static io.confluent.developer.StreamsUtils.prefixedTopicName;
+
 public class BasicStreams {
 
     public static void main(String[] args) throws IOException {
@@ -25,8 +27,8 @@ public class BasicStreams {
         streamsProps.put(StreamsConfig.APPLICATION_ID_CONFIG, "basic-streams");
 
         StreamsBuilder builder = new StreamsBuilder();
-        final String inputTopic = streamsProps.getProperty("basic.input.topic");
-        final String outputTopic = streamsProps.getProperty("basic.output.topic");
+        final String inputTopic = prefixedTopicName(streamsProps.getProperty("basic.input.topic"));
+        final String outputTopic = prefixedTopicName(streamsProps.getProperty("basic.output.topic"));
 
         final String orderNumberStart = "orderNumber-";
         KStream<String, String> firstStream = builder.stream(inputTopic, Consumed.with(Serdes.String(), Serdes.String()));
