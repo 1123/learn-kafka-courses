@@ -1,3 +1,25 @@
+## Kafka Connection
+
+bootstrap.servers=...
+security.protocol=SSL
+ssl.truststore.location=<path to truststore.jks>
+ssl.truststore.password=<password>
+ssl.keystore.location=<path to keystore.jks>
+ssl.keystore.password=<password>
+ssl.key.password=<password>
+
+## Schema Registry Connection
+schema.registry.url=https://...
+schema.registry.ssl.truststore.location=<path to truststore.jks>
+schema.registry.ssl.truststore.password=<password>
+schema.registry.ssl.keystore.location=<path to keystore.jks>
+schema.registry.ssl.keystore.password=<password>
+schema.registry.ssl.key.password=<password>
+basic.auth.credentials.source=USER_INFO
+basic.auth.user.info=<sr_username>:<password>
+
+## Topic Naming. Topics will be prefixed with the participant name. 
+
 aggregate.input.topic=aggregate-input-topic
 aggregate.output.topic=aggregate-output-topic
 basic.input.topic=basic-input-streams
