@@ -2,8 +2,6 @@
 
 TODOs: 
 * update README to mTLS
-* not use Protobuf. 
-* Remove JSON relates stuff
 
 This is the code repo containing the full solutions to the exercises
 for the Kafka Streams course.  To get started you'll need to sign up

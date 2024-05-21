@@ -14,14 +14,14 @@ import org.apache.kafka.streams.kstream.Consumed;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.Materialized;
 import org.apache.kafka.streams.kstream.Produced;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StreamsAggregateTest {
 
@@ -67,7 +67,7 @@ public class StreamsAggregateTest {
             orders.add(ElectronicOrder.newBuilder().setElectronicId("one").setOrderId("3").setUserId("romanov").setTime(5L).setPrice(25.0).build());
 
             List<Double> expectedValues = List.of(5.0, 20.0, 45.0);
-            orders.forEach(order -> inputTopic.pipeInput(order.getElectronicId(), order));
+            orders.forEach(order -> inputTopic.pipeInput(order.getElectronicId().toString(), order));
             List<Double> actualValues = outputTopic.readValuesToList();
             assertEquals(expectedValues, actualValues);
         }
