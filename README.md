@@ -16,10 +16,7 @@ beginning of the course.
 The topic names indicate whether they are used as input or output topics for the exercises. 
 
 Topics are prefixed by your participant name, such that the participants of this course do not interfere with each other.
-The participant name is read from the environment variable "PARTICIPANT\_NAME".
-
-To set your participant name on Unix or Linux systems run "export PARTICIPANT\_NAME=your-name".
-If this environment variable is not set, an exception will be thrown.
+The participant name is read from the property `participant.name` in the properties file. 
 
 ## Running the exercises
 
@@ -36,7 +33,7 @@ To that end, you should let each application run for at least 40 seconds, as som
 
 Every application uses a utility class, `TopicLoader`, which will create the required topics and populate them with some sample data.
 
-Finally, to run an exercise from the command line (assuming you are in the root directory of the repo) run one of the following commands. Remember to set and export your PARTICIPANT_NAME environment variable beforehand. 
+Finally, to run an exercise from the command line (assuming you are in the root directory of the repo) run one of the following commands. Remember to specify the `participant.name` property in your properties file. 
 
 * `mvn exec:java -Dexec.mainClass=io.confluent.developer.ktable.KTableExample`
 * `mvn exec:java -Dexec.mainClass=io.confluent.developer.aggregate.StreamsAggregate`

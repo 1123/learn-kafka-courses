@@ -19,7 +19,7 @@ public class StreamsUtils {
 
     public static Properties loadProperties() throws IOException {
             Properties properties = new Properties();
-        try (FileInputStream fis = new FileInputStream("src/main/resources/streams.properties")) {
+        try (FileInputStream fis = new FileInputStream(PROPERTIES_FILE_PATH)) {
             properties.load(fis);
             return properties;
         }
@@ -47,11 +47,12 @@ public class StreamsUtils {
         };
     }
 
-    public static String prefixedTopicName(String topic) {
-        if (System.getenv("PARTICIPANT_NAME") == null) {
-            throw new RuntimeException("Please specify your participant name in the PARTICIPANT_NAME environment variable!");
+    public static String prefixedTopicName(String topic) throws IOException {
+        Properties properties = loadProperties();
+        if (properties.getProperty("participant.name") == null || properties.getProperty("participant.name").equals("")) {
+            throw new RuntimeException("Please specify your participant name as `participant.name` in the property file!");
         }
-        return String.format("sandbox.%s.%s", System.getenv("PARTICIPANT_NAME"), topic);
+        return String.format("sandbox.%s.%s", properties.getProperty("participant.name"), topic);
     }
 
     public static NewTopic createTopic(final String topicName){
