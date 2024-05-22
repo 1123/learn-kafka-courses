@@ -2,3 +2,5 @@
 src/main/resources/ccloud.properties
 src/main/resources/streams.properties
 target
+logs
+.idea
