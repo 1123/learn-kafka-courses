@@ -1,9 +1,6 @@
 # Kafka Streams Course
 
-TODOs: 
-* update README to mTLS
-
-This is the code repo containing the full solutions to the exercises
+This is the code repo containing the exercises plus solutions
 for the Kafka Streams course.
 
 ## Setting up properties for running the exercise code
@@ -16,28 +13,30 @@ beginning of the course.
 
 # Naming convention of the topics
 
+The topic names indicate whether they are used as input or output topics for the exercises. 
+
+Topics are prefixed by your participant name, such that the participants of this course do not interfere with each other.
+The participant name is read from the environment variable "PARTICIPANT\_NAME".
+
+To set your participant name on Unix or Linux systems run "export PARTICIPANT\_NAME=your-name".
+If this environment variable is not set, an exception will be thrown.
+
 ## Running the exercises
 
-The first step before working with any of streams exercises will be to run `mvn clean package` to make generate all of the
-Avro objects from the schemas contained in the `/src/main/avro` directory.
+The first step before working with any of streams exercises will be to run `mvn clean package`. This will generate all of the
+Avro classes from the schemas contained in the `/src/main/avro` directory. 
+The generated classes are located under `/target/generated-sources/avro`.
+Make sure this directory is marked as a _generated sources root_ folder in your IDE. 
 
 The exercises are self-contained and can be run independently of any other exercise. 
 
-Each streams application will print the records coming into the topology, and the records going out of the topology. Also, 
-some streams applications will print to the console from different handlers.  To that end, you should let each application run
-for at least 40 seconds, as some of them don't have immediate output.
+Each streams application will print the records coming into the topology, and the records going out of the topology. 
+Also, some streams applications will print to the console from different handlers. 
+To that end, you should let each application run for at least 40 seconds, as some of them don't have immediate output.
 
-Every application uses a utility class,
-`TopicLoader`, which will create the required topics and populate them with some sample data.
+Every application uses a utility class, `TopicLoader`, which will create the required topics and populate them with some sample data.
 
-Topics are prefixed by your participant name, such that the participants of this course do not interfere with each other. 
-The participant name is read from the environment variable "PARTICIPANT\_NAME".
-
-To set your participant name on Unix or Linux systems run "export PARTICIPANT\_NAME=your-name". 
-If this environment variable is not set, an exception will be thrown. 
-
-Finally, to run an exercise from the command line (assuming you are in the root directory of the repo) run one of the following 
-commands:
+Finally, to run an exercise from the command line (assuming you are in the root directory of the repo) run one of the following commands. Remember to set and export your PARTICIPANT_NAME environment variable beforehand. 
 
 * `mvn exec:java -Dexec.mainClass=io.confluent.developer.ktable.KTableExample`
 * `mvn exec:java -Dexec.mainClass=io.confluent.developer.aggregate.StreamsAggregate`
@@ -65,16 +64,19 @@ To run any of the TopicLoader main classes separately, use one of the following 
 
 ### Exercise Descriptions
 
-Here's a brief description of each example in this repository.  For detailed step-by-step descriptions follow the Kafka Streams
-course videos.  Note that for the purposes of facilitating the learning process, each exercise uses a utility class `TopicLoader` that will create
-the required topics and populate them with some sample records for the Kafka Streams application. As a result when you run each exercise, the first output you'll 
-see on the console is from the `Callback` interface, and it will look similar to this:
+Here's a brief description of each example in this repository. 
+For detailed step-by-step descriptions follow the Kafka Streams course videos.  
+Note that for the purposes of facilitating the learning process, each exercise uses a utility class `TopicLoader` that will create the required topics and populate them with some sample records for the Kafka Streams application. 
+As a result when you run each exercise, the first output you'll see on the console is from the `Callback` interface, and it will look similar to this:
+
 ```text
 Record produced - offset - 0 timestamp - 1622133855705 
 Record produced - offset - 1 timestamp - 1622133855717 
 Record produced - offset - 2 timestamp - 1622133855717 
 ```
-Each exercise is incomplete, and it's up to you to follow the instructions and hints in the comments to get each application into running shape.  There's also a `solution` directory in each module that contains the fully completed example for you compare with your version or to help you if you get stuck.
+
+Each exercise is incomplete, and it's up to you to follow the instructions and hints in the comments to get each application into running shape.  
+There's also a `solution` directory in each module that contains the fully completed example for you to compare with your version or to help you if you get stuck.
 
 #### Basic Operations
 
