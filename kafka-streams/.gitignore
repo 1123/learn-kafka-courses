@@ -1,7 +1,4 @@
-# Default ignored files
-.idea/
-
-streams.properties
-ccloud.properties
-*.log
+*.iml
+src/main/resources/ccloud.properties
+src/main/resources/streams.properties
 target
