@@ -1,5 +1,0 @@
-{
-  "type":"record",
-  "namespace": "io.confluent.developer.avro",
-   // Complete the JSON for the Avro record as directed in the course
-}
