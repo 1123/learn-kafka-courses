@@ -2,15 +2,13 @@ package io.confluent.developer.aggregate;
 
 import io.confluent.developer.StreamsUtils;
 import io.confluent.developer.avro.ElectronicOrder;
+import io.confluent.developer.avro.TotalPrice;
 import io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
-import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.kstream.Consumed;
 import org.apache.kafka.streams.kstream.KStream;
-import org.apache.kafka.streams.kstream.Materialized;
-import org.apache.kafka.streams.kstream.Produced;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -32,8 +30,8 @@ public class StreamsAggregate {
         final String outputTopic = prefixedTopicName(streamsProps.getProperty("aggregate.output.topic"));
         final Map<String, Object> configMap = StreamsUtils.propertiesToMap(streamsProps);
 
-        final SpecificAvroSerde<ElectronicOrder> electronicSerde =
-                StreamsUtils.getSpecificAvroSerde(configMap);
+        final SpecificAvroSerde<ElectronicOrder> electronicSerde = StreamsUtils.getSpecificAvroSerde(configMap);
+        final SpecificAvroSerde<TotalPrice> totalPriceSerde = StreamsUtils.getSpecificAvroSerde(configMap);
 
         final KStream<String, ElectronicOrder> electronicStream =
                 builder.stream(inputTopic, Consumed.with(Serdes.String(), electronicSerde))
@@ -46,10 +44,10 @@ public class StreamsAggregate {
         // To view the results of the aggregation consider
         // right after the toStream() method .peek((key, value) -> System.out.println("Outgoing record - key " +key +" value " + value))
 
-        // convert the double value to a string, such that the data is displayed correctly in Control Center.
+        // convert the double value to an object of class TotalPrice -- which is an Avro record.
 
-        // Finally write the results to an output topic
-        //  .to(outputTopic, Produced.with(Serdes.String(), Serdes.String()));
+        // Finally write the results to an output topic. Use the totalPriceSerde from above.
+        //  .to(outputTopic, Produced.with(Serdes.String(), ));
 
         try (KafkaStreams kafkaStreams = new KafkaStreams(builder.build(), streamsProps)) {
             final CountDownLatch shutdownLatch = new CountDownLatch(1);

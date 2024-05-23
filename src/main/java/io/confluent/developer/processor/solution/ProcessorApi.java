@@ -1,14 +1,14 @@
 package io.confluent.developer.processor.solution;
 
 import io.confluent.developer.StreamsUtils;
-import io.confluent.developer.processor.TopicLoader;
 import io.confluent.developer.avro.ElectronicOrder;
+import io.confluent.developer.avro.TotalPrice;
+import io.confluent.developer.processor.TopicLoader;
 import io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.KeyValue;
-import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.processor.PunctuationType;
 import org.apache.kafka.streams.processor.api.Processor;
@@ -83,6 +83,28 @@ public class ProcessorApi {
         }
     }
 
+    static class TotalPriceConverterSupplier implements ProcessorSupplier<String, Double, String, TotalPrice> {
+        @Override
+        public Processor<String, Double, String, TotalPrice> get() {
+            return new Processor<>() {
+
+                private ProcessorContext<String, TotalPrice> context;
+
+                @Override
+                public void init(ProcessorContext<String, TotalPrice> context) {
+                    this.context = context;
+                }
+
+                @Override
+                public void process(Record<String, Double> record) {
+                    Record<String, TotalPrice> converted =
+                            new Record<>(record.key(), TotalPrice.newBuilder().setPrice(record.value()).build(), record.timestamp());
+                    context.forward(converted);
+                }
+            };
+        }
+    }
+
     final static String storeName = "total-price-store";
     static StoreBuilder<KeyValueStore<String, Double>> totalPriceStoreBuilder = Stores.keyValueStoreBuilder(
             Stores.persistentKeyValueStore(storeName),
@@ -99,6 +121,7 @@ public class ProcessorApi {
 
         final SpecificAvroSerde<ElectronicOrder> electronicSerde = getSpecificAvroSerde(configMap);
         final Serde<String> stringSerde = Serdes.String();
+        final SpecificAvroSerde<TotalPrice> totalPriceSerde = getSpecificAvroSerde(configMap);
 
         final Topology topology = new Topology();
         topology.addSource(
@@ -114,34 +137,14 @@ public class ProcessorApi {
 
         topology.addProcessor(
                 "to-string-converter",
-                new ProcessorSupplier<String, Double, String, String>() {
-                    @Override
-                    public Processor<String, Double, String, String> get() {
-                        return new Processor<>() {
-
-                            private ProcessorContext<String, String> context;
-
-                            @Override
-                            public void init(ProcessorContext<String, String> context) {
-                                this.context = context;
-                            }
-
-                            @Override
-                            public void process(Record<String, Double> record) {
-                                Record<String, String> converted =
-                                        new Record<>(record.key(), String.valueOf(record.value()), record.timestamp());
-                                context.forward(converted);
-                            }
-                        };
-                    }
-                },
+                new TotalPriceConverterSupplier(),
                 "aggregate-price");
 
         topology.addSink(
                 "sink-node",
                 outputTopic,
                 stringSerde.serializer(),
-                stringSerde.serializer(),
+                totalPriceSerde.serializer(),
                 "to-string-converter");
 
         try (KafkaStreams kafkaStreams = new KafkaStreams(topology, streamsProps)) {

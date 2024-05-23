@@ -2,6 +2,7 @@ package io.confluent.developer.processor;
 
 import io.confluent.developer.StreamsUtils;
 import io.confluent.developer.avro.ElectronicOrder;
+import io.confluent.developer.avro.TotalPrice;
 import io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
@@ -89,7 +90,7 @@ public class ProcessorApi {
 
         final SpecificAvroSerde<ElectronicOrder> electronicSerde = getSpecificAvroSerde(configMap);
         final Serde<String> stringSerde = Serdes.String();
-        final Serde<Double> doubleSerde = Serdes.Double();
+        final SpecificAvroSerde<TotalPrice> totalPriceSerde = getSpecificAvroSerde(configMap);
 
         final Topology topology = new Topology();
 
@@ -100,8 +101,8 @@ public class ProcessorApi {
         // You'll give it a name, add a processor supplier HINT: a new instance and provide the store name
         // You'll also provide a parent name HINT: it's the name you used for the source node
 
-        // Add another processor that converts the double value emitted by the previous processor into a
-        // String value. This is such that the values are displayed correctly in control center.
+        // Add another processor that converts the double value emitted by the previous processor into an
+        // instance of TotalPrice.
 
         // Finally, add a sink node HINT topology.addSink
         // As before give it a name, the output topic name, serializers for the key and value HINT: string and string
