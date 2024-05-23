@@ -99,7 +99,6 @@ public class ProcessorApi {
 
         final SpecificAvroSerde<ElectronicOrder> electronicSerde = getSpecificAvroSerde(configMap);
         final Serde<String> stringSerde = Serdes.String();
-        final Serde<Double> doubleSerde = Serdes.Double();
 
         final Topology topology = new Topology();
         topology.addSource(
@@ -113,12 +112,37 @@ public class ProcessorApi {
                 new TotalPriceOrderProcessorSupplier(storeName),
                 "source-node");
 
+        topology.addProcessor(
+                "to-string-converter",
+                new ProcessorSupplier<String, Double, String, String>() {
+                    @Override
+                    public Processor<String, Double, String, String> get() {
+                        return new Processor<>() {
+
+                            private ProcessorContext<String, String> context;
+
+                            @Override
+                            public void init(ProcessorContext<String, String> context) {
+                                this.context = context;
+                            }
+
+                            @Override
+                            public void process(Record<String, Double> record) {
+                                Record<String, String> converted =
+                                        new Record<>(record.key(), String.valueOf(record.value()), record.timestamp());
+                                context.forward(converted);
+                            }
+                        };
+                    }
+                },
+                "aggregate-price");
+
         topology.addSink(
                 "sink-node",
                 outputTopic,
                 stringSerde.serializer(),
-                doubleSerde.serializer(),
-                "aggregate-price");
+                stringSerde.serializer(),
+                "to-string-converter");
 
         try (KafkaStreams kafkaStreams = new KafkaStreams(topology, streamsProps)) {
             final CountDownLatch shutdownLatch = new CountDownLatch(1);

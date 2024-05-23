@@ -100,10 +100,12 @@ public class ProcessorApi {
         // You'll give it a name, add a processor supplier HINT: a new instance and provide the store name
         // You'll also provide a parent name HINT: it's the name you used for the source node
 
-        // Finally, add a sink node HINT topology.addSink
-        // As before give it a name, the output topic name, serializers for the key and value HINT: string and double
-        // and the name of the parent node HINT it's the name you gave the processor
+        // Add another processor that converts the double value emitted by the previous processor into a
+        // String value. This is such that the values are displayed correctly in control center.
 
+        // Finally, add a sink node HINT topology.addSink
+        // As before give it a name, the output topic name, serializers for the key and value HINT: string and string
+        // and the name of the parent node HINT it's the name you gave the previous processor
 
         try (KafkaStreams kafkaStreams = new KafkaStreams(topology, streamsProps)) {
             final CountDownLatch shutdownLatch = new CountDownLatch(1);
