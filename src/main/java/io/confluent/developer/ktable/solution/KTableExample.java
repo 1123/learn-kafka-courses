@@ -1,5 +1,6 @@
 package io.confluent.developer.ktable.solution;
 
+import io.confluent.developer.StreamsUtils;
 import io.confluent.developer.ktable.TopicLoader;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.utils.Bytes;
@@ -11,7 +12,6 @@ import org.apache.kafka.streams.kstream.Materialized;
 import org.apache.kafka.streams.kstream.Produced;
 import org.apache.kafka.streams.state.KeyValueStore;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Properties;
@@ -22,10 +22,7 @@ import static io.confluent.developer.StreamsUtils.prefixedTopicName;
 public class KTableExample {
 
     public static void main(String[] args) throws IOException {
-        final Properties streamsProps = new Properties();
-        try (FileInputStream fis = new FileInputStream("src/main/resources/streams.properties")) {
-            streamsProps.load(fis);
-        }
+        final Properties streamsProps = StreamsUtils.loadProperties();
         streamsProps.put(StreamsConfig.APPLICATION_ID_CONFIG, "ktable-application");
 
         StreamsBuilder builder = new StreamsBuilder();

@@ -1,5 +1,6 @@
 package io.confluent.developer.serdes;
 
+import io.confluent.developer.StreamsUtils;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
@@ -19,8 +20,7 @@ import static io.confluent.developer.StreamsUtils.prefixedTopicName;
 public class StreamsSerdes {
 
     public static void main(String[] args) throws IOException {
-        final Properties streamsProps = new Properties();
-        streamsProps.load(new FileInputStream("src/main/resources/streams.properties"));
+        final Properties streamsProps = StreamsUtils.loadProperties();
         streamsProps.put(StreamsConfig.APPLICATION_ID_CONFIG, "basic-streams");
 
         StreamsBuilder builder = new StreamsBuilder();

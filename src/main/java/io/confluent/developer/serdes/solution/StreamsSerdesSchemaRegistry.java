@@ -1,8 +1,9 @@
 package io.confluent.developer.serdes.solution;
 
-import io.confluent.developer.serdes.SRTopicLoader;
+import io.confluent.developer.StreamsUtils;
 import io.confluent.developer.avro.ProcessedOrder;
 import io.confluent.developer.avro.ProductOrder;
+import io.confluent.developer.serdes.SRTopicLoader;
 import io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde;
 import org.apache.avro.specific.SpecificRecord;
 import org.apache.kafka.common.serialization.Serdes;
@@ -13,7 +14,6 @@ import org.apache.kafka.streams.kstream.Consumed;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.Produced;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
@@ -27,8 +27,7 @@ import static io.confluent.developer.StreamsUtils.prefixedTopicName;
 public class StreamsSerdesSchemaRegistry {
 
     public static void main(String[] args) throws IOException {
-        final Properties streamsProps = new Properties();
-        streamsProps.load(new FileInputStream("src/main/resources/streams.properties"));
+        final Properties streamsProps = StreamsUtils.loadProperties();
         streamsProps.put(StreamsConfig.APPLICATION_ID_CONFIG, "schema-registry-streams");
 
         StreamsBuilder builder = new StreamsBuilder();

@@ -1,5 +1,6 @@
 package io.confluent.developer.serdes;
 
+import io.confluent.developer.StreamsUtils;
 import io.confluent.developer.avro.ProcessedOrder;
 import io.confluent.developer.avro.ProductOrder;
 import io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde;
@@ -26,8 +27,7 @@ import static io.confluent.developer.StreamsUtils.prefixedTopicName;
 public class StreamsSerdesSchemaRegistry {
 
     public static void main(String[] args) throws IOException {
-        final Properties streamsProps = new Properties();
-        streamsProps.load(new FileInputStream("src/main/resources/streams.properties"));
+        final Properties streamsProps = StreamsUtils.loadProperties();
         streamsProps.put(StreamsConfig.APPLICATION_ID_CONFIG, "schema-registry-streams");
 
         StreamsBuilder builder = new StreamsBuilder();

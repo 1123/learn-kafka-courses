@@ -1,5 +1,6 @@
 package io.confluent.developer.basic.solution;
 
+import io.confluent.developer.StreamsUtils;
 import io.confluent.developer.basic.TopicLoader;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
@@ -9,7 +10,6 @@ import org.apache.kafka.streams.kstream.Consumed;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.Produced;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Properties;
@@ -20,10 +20,7 @@ import static io.confluent.developer.StreamsUtils.prefixedTopicName;
 public class BasicStreams {
 
     public static void main(String[] args) throws IOException {
-        Properties streamsProps = new Properties();
-        try (FileInputStream fis = new FileInputStream("src/main/resources/streams.properties")) {
-            streamsProps.load(fis);
-        }
+        Properties streamsProps = StreamsUtils.loadProperties();
         streamsProps.put(StreamsConfig.APPLICATION_ID_CONFIG, "basic-streams");
 
         StreamsBuilder builder = new StreamsBuilder();
