@@ -46,8 +46,10 @@ public class StreamsAggregate {
         // To view the results of the aggregation consider
         // right after the toStream() method .peek((key, value) -> System.out.println("Outgoing record - key " +key +" value " + value))
 
+        // convert the double value to a string, such that the data is displayed correctly in Control Center.
+
         // Finally write the results to an output topic
-        //  .to(outputTopic, Produced.with(Serdes.String(), Serdes.Double()));
+        //  .to(outputTopic, Produced.with(Serdes.String(), Serdes.String()));
 
         try (KafkaStreams kafkaStreams = new KafkaStreams(builder.build(), streamsProps)) {
             final CountDownLatch shutdownLatch = new CountDownLatch(1);

@@ -2,8 +2,13 @@ package io.confluent.developer.aggregate.solution;
 
 import io.confluent.developer.StreamsUtils;
 import io.confluent.developer.aggregate.TopicLoader;
+import io.confluent.developer.avro.Aggregate;
 import io.confluent.developer.avro.ElectronicOrder;
+import io.confluent.kafka.streams.serdes.avro.GenericAvroSerde;
 import io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde;
+import org.apache.avro.Schema;
+import org.apache.avro.generic.GenericData;
+import org.apache.avro.generic.GenericRecord;
 import org.apache.kafka.common.protocol.types.Field;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
@@ -45,8 +50,9 @@ public class StreamsAggregate {
                         (key, order, total) -> total + order.getPrice(),
                         Materialized.with(Serdes.String(), Serdes.Double()))
                 .toStream()
+                .mapValues(aggregate -> String.valueOf(aggregate))
                 .peek((key, value) -> System.out.println("Outgoing record - key " + key + " value " + value))
-                .to(outputTopic, Produced.with(Serdes.String(), Serdes.Double()));
+                .to(outputTopic, Produced.with(Serdes.String(), Serdes.String()));
 
         try (KafkaStreams kafkaStreams = new KafkaStreams(builder.build(), streamsProps)) {
             final CountDownLatch shutdownLatch = new CountDownLatch(1);
