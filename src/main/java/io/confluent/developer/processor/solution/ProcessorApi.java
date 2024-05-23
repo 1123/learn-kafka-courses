@@ -1,5 +1,6 @@
 package io.confluent.developer.processor.solution;
 
+import io.confluent.developer.StreamsUtils;
 import io.confluent.developer.processor.TopicLoader;
 import io.confluent.developer.avro.ElectronicOrder;
 import io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde;
@@ -90,7 +91,7 @@ public class ProcessorApi {
 
     public static void main(String[] args) throws IOException {
         final Properties streamsProps = loadProperties();
-        streamsProps.put(StreamsConfig.APPLICATION_ID_CONFIG, "processor-api-application");
+        StreamsUtils.setApplicationID(streamsProps, "processor-api-application");
 
         final String inputTopic = prefixedTopicName(streamsProps.getProperty("processor.input.topic"));
         final String outputTopic = prefixedTopicName(streamsProps.getProperty("processor.output.topic"));

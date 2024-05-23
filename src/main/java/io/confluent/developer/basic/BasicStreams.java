@@ -17,7 +17,7 @@ public class BasicStreams {
 
     public static void main(String[] args) throws IOException {
         Properties streamsProps = StreamsUtils.loadProperties();
-        streamsProps.put(StreamsConfig.APPLICATION_ID_CONFIG, "basic-streams");
+        StreamsUtils.setApplicationID(streamsProps, "basic-streams");
 
         StreamsBuilder builder = new StreamsBuilder();
         final String inputTopic = prefixedTopicName(streamsProps.getProperty("basic.input.topic"));

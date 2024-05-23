@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import static org.apache.kafka.streams.StreamsConfig.APPLICATION_ID_CONFIG;
+
 public class StreamsUtils {
 
     public static final String PROPERTIES_FILE_PATH = "src/main/resources/streams.properties";
@@ -57,5 +59,11 @@ public class StreamsUtils {
 
     public static NewTopic createTopic(final String topicName){
               return new NewTopic(topicName, PARTITIONS, REPLICATION_FACTOR);
+    }
+
+    public static void setApplicationID(Properties streamsProps, String challengeName) {
+        streamsProps.setProperty(APPLICATION_ID_CONFIG,
+                String.format("sandbox.%s.%s", streamsProps.getProperty("participant.name"), challengeName)
+        );
     }
 }

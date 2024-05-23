@@ -41,7 +41,7 @@ public class StreamsJoin {
 
     public static void main(String[] args) throws IOException {
         Properties streamsProps = StreamsUtils.loadProperties();
-        streamsProps.put(StreamsConfig.APPLICATION_ID_CONFIG, "joining-streams");
+        StreamsUtils.setApplicationID(streamsProps, "joining-streams");
 
         StreamsBuilder builder = new StreamsBuilder();
         String streamOneInput = prefixedTopicName(streamsProps.getProperty("stream_one.input.topic"));

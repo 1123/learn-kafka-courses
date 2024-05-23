@@ -25,7 +25,7 @@ public class StreamsAggregate {
     public static void main(String[] args) throws IOException {
 
         final Properties streamsProps = StreamsUtils.loadProperties();
-        streamsProps.put(StreamsConfig.APPLICATION_ID_CONFIG, "aggregate-streams");
+        StreamsUtils.setApplicationID(streamsProps, "aggregate-streams");
 
         StreamsBuilder builder = new StreamsBuilder();
         final String inputTopic = prefixedTopicName(streamsProps.getProperty("aggregate.input.topic"));

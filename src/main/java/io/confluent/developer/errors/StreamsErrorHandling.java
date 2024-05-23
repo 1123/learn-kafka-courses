@@ -86,7 +86,7 @@ public class StreamsErrorHandling {
 
     public static void main(String[] args) throws IOException {
         final Properties streamsProps = StreamsUtils.loadProperties();
-        streamsProps.put(StreamsConfig.APPLICATION_ID_CONFIG, "streams-error-handling");
+        StreamsUtils.setApplicationID(streamsProps, "streams-error-handling");
 
         // Set the deserialization exception handler and the production exception handler
         // on the streamsProps object

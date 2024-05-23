@@ -28,7 +28,7 @@ public class StreamsSerdesSchemaRegistry {
 
     public static void main(String[] args) throws IOException {
         final Properties streamsProps = StreamsUtils.loadProperties();
-        streamsProps.put(StreamsConfig.APPLICATION_ID_CONFIG, "schema-registry-streams");
+        StreamsUtils.setApplicationID(streamsProps, "schema-registry-streams");
 
         StreamsBuilder builder = new StreamsBuilder();
         final String inputTopic = prefixedTopicName(streamsProps.getProperty("sr.input.topic"));;

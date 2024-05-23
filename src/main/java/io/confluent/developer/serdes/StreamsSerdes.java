@@ -21,7 +21,7 @@ public class StreamsSerdes {
 
     public static void main(String[] args) throws IOException {
         final Properties streamsProps = StreamsUtils.loadProperties();
-        streamsProps.put(StreamsConfig.APPLICATION_ID_CONFIG, "basic-streams");
+        StreamsUtils.setApplicationID(streamsProps, "serdes-streams");
 
         StreamsBuilder builder = new StreamsBuilder();
         final String inputTopic = prefixedTopicName(streamsProps.getProperty("serdes.input.topic"));

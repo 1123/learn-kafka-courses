@@ -4,6 +4,7 @@ import io.confluent.developer.StreamsUtils;
 import io.confluent.developer.aggregate.TopicLoader;
 import io.confluent.developer.avro.ElectronicOrder;
 import io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde;
+import org.apache.kafka.common.protocol.types.Field;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
@@ -26,7 +27,7 @@ public class StreamsAggregate {
     public static void main(String[] args) throws IOException {
 
         final Properties streamsProps = StreamsUtils.loadProperties();
-        streamsProps.put(StreamsConfig.APPLICATION_ID_CONFIG, "aggregate-streams");
+        StreamsUtils.setApplicationID(streamsProps, "aggregate-streams");
 
         StreamsBuilder builder = new StreamsBuilder();
         final String inputTopic = prefixedTopicName(streamsProps.getProperty("aggregate.input.topic"));

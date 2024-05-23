@@ -37,7 +37,7 @@ public class StreamsTimestampExtractor {
     public static void main(String[] args) throws IOException {
 
         final Properties streamsProps = StreamsUtils.loadProperties();
-        streamsProps.put(StreamsConfig.APPLICATION_ID_CONFIG, "extractor-windowed-streams");
+        StreamsUtils.setApplicationID(streamsProps, "extractor-windowed-streams");
 
         StreamsBuilder builder = new StreamsBuilder();
         final String inputTopic = streamsProps.getProperty("extractor.input.topic");

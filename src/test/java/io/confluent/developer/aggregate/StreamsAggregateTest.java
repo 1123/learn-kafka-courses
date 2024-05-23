@@ -27,7 +27,8 @@ public class StreamsAggregateTest {
     public void shouldAggregateRecords() {
 
         final Properties streamsProps = new Properties();
-        streamsProps.put(StreamsConfig.APPLICATION_ID_CONFIG, "aggregate-test");
+        StreamsUtils.setApplicationID(streamsProps, "aggregate-test");
+
         streamsProps.put("schema.registry.url", "mock://aggregation-test");
 
         final String inputTopicName = "input";

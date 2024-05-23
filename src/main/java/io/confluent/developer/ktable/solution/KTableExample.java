@@ -23,7 +23,7 @@ public class KTableExample {
 
     public static void main(String[] args) throws IOException {
         final Properties streamsProps = StreamsUtils.loadProperties();
-        streamsProps.put(StreamsConfig.APPLICATION_ID_CONFIG, "ktable-application");
+        StreamsUtils.setApplicationID(streamsProps, "ktable-application");
 
         StreamsBuilder builder = new StreamsBuilder();
         final String inputTopic = prefixedTopicName(streamsProps.getProperty("ktable.input.topic"));
